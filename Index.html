@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vi-Reality</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#050505;
+    overflow:hidden;
+    color:white;
+}
+
+/* NAVBAR */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    padding:20px 0;
+    z-index:1000;
+}
+
+nav ul{
+    display:flex;
+    gap:25px;
+    list-style:none;
+}
+
+nav button{
+    background:transparent;
+    border:none;
+    color:white;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+    padding:8px 18px;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+nav button.active,
+nav button:hover{
+    background:#ff00a6;
+    box-shadow:0 0 15px #ff00a6;
+}
+
+/* SCREENS */
+
+.screen{
+    width:100%;
+    height:100vh;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    top:0;
+    left:0;
+    overflow:hidden;
+}
+
+.screen.active{
+    display:flex;
+}
+
+/* BACKGROUND GLOW */
+
+.screen::before{
+    content:'';
+    position:absolute;
+    width:1200px;
+    height:1200px;
+    background:radial-gradient(circle,#ff00a6 0%,transparent 70%);
+    bottom:-850px;
+    left:50%;
+    transform:translateX(-50%);
+    opacity:0.7;
+}
+
+/* HOME */
+
+.home-container{
+    width:90%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:2;
+}
+
+.home-left{
+    max-width:500px;
+}
+
+.home-left h1{
+    font-size:72px;
+    margin-bottom:20px;
+}
+
+.home-left p{
+    color:#d3d3d3;
+    line-height:28px;
+    margin-bottom:30px;
+}
+
+.btn{
+    background:#ff00a6;
+    border:none;
+    color:white;
+    padding:14px 32px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow:0 0 20px #ff00a6;
+}
+
+.home-right img{
+    width:600px;
+    border-radius:25px;
+}
+
+/* PRODUCTS */
+
+.products-container{
+    width:100%;
+    text-align:center;
+    z-index:2;
+}
+
+.products-container h2{
+    margin-bottom:50px;
+    font-size:35px;
+}
+
+.product-cards{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+}
+
+.product-card{
+    width:220px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-10px);
+}
+
+.product-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:25px;
+    border:2px solid #ff00a6;
+}
+
+.product-card h3{
+    margin-top:15px;
+    font-size:16px;
+}
+
+/* PRODUCT DETAILS */
+
+.detail-container{
+    width:80%;
+    text-align:center;
+    z-index:2;
+}
+
+.detail-container img{
+    width:260px;
+    border-radius:25px;
+    border:2px solid #ff00a6;
+    margin-bottom:30px;
+}
+
+.detail-container h1{
+    margin-bottom:20px;
+}
+
+.detail-container p{
+    max-width:700px;
+    margin:auto;
+    line-height:30px;
+    color:#d3d3d3;
+}
+
+.back-btn{
+    margin-top:35px;
+}
+
+/* ABOUT */
+
+.about-box{
+    width:800px;
+    z-index:2;
+}
+
+.about-box h1{
+    margin-bottom:30px;
+}
+
+.about-box p{
+    line-height:30px;
+    color:#d3d3d3;
+    margin-bottom:20px;
+}
+
+/* SUBSCRIBE */
+
+.subscribe-box{
+    width:700px;
+    border:2px solid #ff00a6;
+    border-radius:30px;
+    padding:50px;
+    text-align:center;
+    z-index:2;
+}
+
+.subscribe-box h1{
+    margin-bottom:20px;
+}
+
+.subscribe-box p{
+    margin-bottom:30px;
+    color:#d3d3d3;
+}
+
+.input-group{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+
+.input-group input{
+    width:350px;
+    padding:15px;
+    border:none;
+    outline:none;
+    border-radius:30px;
+    background:#111;
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+<ul>
+
+<li>
+<button class="nav-btn active" onclick="showScreen('home',this)">
+HOME
+</button>
+</li>
+
+<li>
+<button class="nav-btn" onclick="showScreen('products',this)">
+PRODUCTS
+</button>
+</li>
+
+<li>
+<button class="nav-btn" onclick="showScreen('about',this)">
+ABOUT US
+</button>
+</li>
+
+<li>
+<button class="nav-btn" onclick="showScreen('subscribe',this)">
+SUBSCRIPTION
+</button>
+</li>
+
+</ul>
+
+</nav>
+
+<!-- HOME -->
+
+<section id="home" class="screen active">
+
+<div class="home-container">
+
+<div class="home-left">
+
+<h1>Vi-Reality</h1>
+
+<p>
+Step into the future with Virtual Reality.
+Experience immersive gaming, ultra realistic visuals,
+and futuristic VR interaction technology.
+</p>
+
+<button class="btn">
+See More
+</button>
+
+</div>
+
+<div class="home-right">
+
+<img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1200&auto=format&fit=crop">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PRODUCTS -->
+
+<section id="products" class="screen">
+
+<div class="products-container">
+
+<h2>OUR MOST SELLING PRODUCTS</h2>
+
+<div class="product-cards">
+
+<div class="product-card" onclick="openProduct('gear')">
+
+<img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1200&auto=format&fit=crop">
+
+<h3>Gear VR Headset</h3>
+
+</div>
+
+<div class="product-card" onclick="openProduct('playstation')">
+
+<img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=1200&auto=format&fit=crop">
+
+<h3>PlayStation VR Headset</h3>
+
+</div>
+
+<div class="product-card" onclick="openProduct('smart')">
+
+<img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop">
+
+<h3>Smart VR Headset</h3>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- GEAR DETAIL -->
+
+<section id="gear" class="screen">
+
+<div class="detail-container">
+
+<img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1200&auto=format&fit=crop">
+
+<h1>Gear VR Headset</h1>
+
+<p>
+Get ready to experience entertainment like never before with the Gear VR.
+Designed for immersive visuals, responsive controls, and futuristic gaming.
+</p>
+
+<button class="btn back-btn" onclick="showOnly('products')">
+Back
+</button>
+
+</div>
+
+</section>
+
+<!-- PLAYSTATION DETAIL -->
+
+<section id="playstation" class="screen">
+
+<div class="detail-container">
+
+<img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=1200&auto=format&fit=crop">
+
+<h1>PlayStation VR Headset</h1>
+
+<p>
+The ultimate PlayStation VR experience with cinematic visuals,
+smooth gameplay, ultra responsive tracking, and realistic immersion.
+</p>
+
+<button class="btn back-btn" onclick="showOnly('products')">
+Back
+</button>
+
+</div>
+
+</section>
+
+<!-- SMART DETAIL -->
+
+<section id="smart" class="screen">
+
+<div class="detail-container">
+
+<img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop">
+
+<h1>Smart VR Headset</h1>
+
+<p>
+All-in-one virtual reality experience with powerful visuals,
+advanced interaction technology, and futuristic entertainment features.
+</p>
+
+<button class="btn back-btn" onclick="showOnly('products')">
+Back
+</button>
+
+</div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section id="about" class="screen">
+
+<div class="about-box">
+
+<h1>About Us</h1>
+
+<p>
+Our company continuously innovates the future by creating advanced
+virtual reality products that deliver realistic immersive experiences.
+</p>
+
+<p>
+We focus on futuristic technologies, high-quality design,
+and premium entertainment solutions for modern users.
+</p>
+
+</div>
+
+</section>
+
+<!-- SUBSCRIBE -->
+
+<section id="subscribe" class="screen">
+
+<div class="subscribe-box">
+
+<h1>Subscribe To Our Message</h1>
+
+<p>
+Get updates about our latest VR products and technology.
+</p>
+
+<div class="input-group">
+
+<input type="email" placeholder="Enter Your Email">
+
+<button class="btn">
+Subscribe
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+function showScreen(id,button){
+
+let screens=document.querySelectorAll('.screen');
+
+screens.forEach(screen=>{
+screen.classList.remove('active');
+});
+
+document.getElementById(id).classList.add('active');
+
+let navButtons=document.querySelectorAll('.nav-btn');
+
+navButtons.forEach(btn=>{
+btn.classList.remove('active');
+});
+
+button.classList.add('active');
+}
+
+function openProduct(productId){
+
+let screens=document.querySelectorAll('.screen');
+
+screens.forEach(screen=>{
+screen.classList.remove('active');
+});
+
+document.getElementById(productId).classList.add('active');
+}
+
+function showOnly(id){
+
+let screens=document.querySelectorAll('.screen');
+
+screens.forEach(screen=>{
+screen.classList.remove('active');
+});
+
+document.getElementById(id).classList.add('active');
+}
+
+</script>
+
+</body>
+</html>
